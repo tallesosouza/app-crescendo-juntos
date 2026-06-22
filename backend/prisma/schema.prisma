@@ -316,7 +316,7 @@ model EventoCalendario {
   atualizado_em          DateTime  @updatedAt
 
   gestacao      Gestacao      @relation(fields: [gestacao_id], references: [id], onDelete: Cascade)
-  bebe          Bebe?         @relation(fields: [bebe_id], references: [id])
+  bebe          Bebe?         @relation(fields: [bebe_id], references: [id], onDelete: Cascade)
   criado        Usuario       @relation(fields: [criado_por], references: [id])
   unidade_saude UnidadeSaude? @relation(fields: [unidade_saude_id], references: [id])
   recomendacao  Recomendacao? @relation(fields: [recomendacao_id], references: [id])

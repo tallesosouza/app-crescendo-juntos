@@ -45,6 +45,8 @@ erDiagram
         string email UK
         date data_nascimento
         int municipio_id FK "nullable - cidade selecionada"
+        datetime consentimento_em "nullable - data/hora do aceite LGPD aos termos de uso"
+        string versao_termos "nullable - versão dos termos aceitos (auditoria LGPD)"
         datetime criado_em
         datetime atualizado_em
     }
