@@ -23,7 +23,7 @@ export class AuthService {
     return this.supabase.auth.signUp({
       email,
       password,
-      options: { data: { nome }, emailRedirectTo: `${location.origin}/login` },
+      options: { data: { nome }, emailRedirectTo: `${location.origin}/confirmar-email` },
     });
   }
 
