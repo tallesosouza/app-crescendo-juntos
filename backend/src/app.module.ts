@@ -4,9 +4,10 @@ import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { MeModule } from './presentation/me/me.module';
 import { MunicipioModule } from './presentation/municipio/municipio.module';
 import { OnboardingModule } from './presentation/onboarding/onboarding.module';
+import { ConviteModule } from './presentation/convite/convite.module';
 
 @Module({
-  imports: [PrismaModule, MeModule, MunicipioModule, OnboardingModule],
+  imports: [PrismaModule, MeModule, MunicipioModule, OnboardingModule, ConviteModule],
   controllers: [HealthController],
 })
 export class AppModule {}
