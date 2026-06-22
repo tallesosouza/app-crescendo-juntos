@@ -1,0 +1,12 @@
+{
+  "name": "crescendo-juntos",
+  "private": true,
+  "engines": { "node": ">=22", "pnpm": ">=9" },
+  "scripts": {
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "backend:dev": "pnpm --filter backend start:dev",
+    "frontend:dev": "pnpm --filter frontend start",
+    "test": "pnpm -r test"
+  }
+}
