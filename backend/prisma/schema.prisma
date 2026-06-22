@@ -348,7 +348,7 @@ model AnexoEvento {
 model Convite {
   id          Int               @id @default(autoincrement())
   gestacao_id Int
-  email       String
+  email       String?
   papel       PapelParticipacao
   token       String            @unique @db.Uuid
   status      StatusConvite     @default(pendente)
