@@ -3,8 +3,7 @@ import { SecurityModule } from '../../infrastructure/auth/security.module';
 import { PASSWORD_RESET_GATEWAY } from '../../application/ports/password-reset-gateway.port';
 import { SolicitarRedefinicaoSenha } from '../../application/use-cases/solicitar-redefinicao-senha';
 import { AuthController } from './auth.controller';
-
-export const SOLICITAR_REDEFINICAO = Symbol('SolicitarRedefinicaoSenha');
+import { SOLICITAR_REDEFINICAO } from '../common/use-case.tokens';
 
 @Module({
   imports: [SecurityModule],

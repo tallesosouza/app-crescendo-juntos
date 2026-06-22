@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { MunicipioResponse } from '@crescendo/shared';
 import { SupabaseJwtGuard } from '../common/supabase-jwt.guard';
 import { ListarMunicipios } from '../../application/use-cases/listar-municipios';
-import { LISTAR_MUNICIPIOS } from './municipio.module';
+import { LISTAR_MUNICIPIOS } from '../common/use-case.tokens';
 
 @ApiTags('municipios')
 @ApiBearerAuth()

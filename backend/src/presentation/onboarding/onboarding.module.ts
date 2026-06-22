@@ -8,8 +8,7 @@ import { BEBE_REPOSITORY } from '../../domain/repositories/bebe.repository';
 import { CONVITE_REPOSITORY } from '../../domain/repositories/convite.repository';
 import { RealizarOnboardingGestante } from '../../application/use-cases/realizar-onboarding-gestante';
 import { OnboardingController } from './onboarding.controller';
-
-export const REALIZAR_ONBOARDING = Symbol('RealizarOnboardingGestante');
+import { REALIZAR_ONBOARDING } from '../common/use-case.tokens';
 
 @Module({
   imports: [PersistenceModule, SecurityModule],

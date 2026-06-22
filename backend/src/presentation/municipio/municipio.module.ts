@@ -4,8 +4,7 @@ import { SecurityModule } from '../../infrastructure/auth/security.module';
 import { MUNICIPIO_REPOSITORY } from '../../domain/repositories/municipio.repository';
 import { ListarMunicipios } from '../../application/use-cases/listar-municipios';
 import { MunicipioController } from './municipio.controller';
-
-export const LISTAR_MUNICIPIOS = Symbol('ListarMunicipios');
+import { LISTAR_MUNICIPIOS } from '../common/use-case.tokens';
 
 @Module({
   imports: [PersistenceModule, SecurityModule],

@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, Inject, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { SolicitarRedefinicaoSenha } from '../../application/use-cases/solicitar-redefinicao-senha';
 import { EsqueciSenhaDto } from './dto/esqueci-senha.dto';
-import { SOLICITAR_REDEFINICAO } from './auth.module';
+import { SOLICITAR_REDEFINICAO } from '../common/use-case.tokens';
 
 @ApiTags('auth')
 @Controller('auth')

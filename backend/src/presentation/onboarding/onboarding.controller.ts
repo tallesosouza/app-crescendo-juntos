@@ -6,7 +6,7 @@ import { AuthUser } from '../common/auth-user.decorator';
 import type { AuthUser as AuthUserType } from '../../application/ports/token-verifier.port';
 import { RealizarOnboardingGestante } from '../../application/use-cases/realizar-onboarding-gestante';
 import { OnboardingGestanteDto } from './dto/onboarding.dto';
-import { REALIZAR_ONBOARDING } from './onboarding.module';
+import { REALIZAR_ONBOARDING } from '../common/use-case.tokens';
 
 @ApiTags('onboarding')
 @ApiBearerAuth()

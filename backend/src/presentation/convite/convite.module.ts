@@ -10,10 +10,7 @@ import { GerarConvite } from '../../application/use-cases/gerar-convite';
 import { ConsultarConvite } from '../../application/use-cases/consultar-convite';
 import { AceitarConvite } from '../../application/use-cases/aceitar-convite';
 import { ConviteController } from './convite.controller';
-
-export const GERAR_CONVITE = Symbol('GerarConvite');
-export const CONSULTAR_CONVITE = Symbol('ConsultarConvite');
-export const ACEITAR_CONVITE = Symbol('AceitarConvite');
+import { GERAR_CONVITE, CONSULTAR_CONVITE, ACEITAR_CONVITE } from '../common/use-case.tokens';
 
 @Module({
   imports: [PersistenceModule, SecurityModule],

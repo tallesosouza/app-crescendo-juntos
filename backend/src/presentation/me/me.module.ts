@@ -6,8 +6,7 @@ import { GESTACAO_REPOSITORY } from '../../domain/repositories/gestacao.reposito
 import { PARTICIPACAO_REPOSITORY } from '../../domain/repositories/participacao.repository';
 import { ObterContextoUsuario } from '../../application/use-cases/obter-contexto-usuario';
 import { MeController } from './me.controller';
-
-export const OBTER_CONTEXTO_USUARIO = Symbol('ObterContextoUsuario');
+import { OBTER_CONTEXTO_USUARIO } from '../common/use-case.tokens';
 
 @Module({
   imports: [PersistenceModule, SecurityModule],

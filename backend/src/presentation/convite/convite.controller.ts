@@ -8,7 +8,7 @@ import { GerarConvite } from '../../application/use-cases/gerar-convite';
 import { ConsultarConvite } from '../../application/use-cases/consultar-convite';
 import { AceitarConvite } from '../../application/use-cases/aceitar-convite';
 import { GerarConviteDto } from './dto/convite.dto';
-import { GERAR_CONVITE, CONSULTAR_CONVITE, ACEITAR_CONVITE } from './convite.module';
+import { GERAR_CONVITE, CONSULTAR_CONVITE, ACEITAR_CONVITE } from '../common/use-case.tokens';
 
 @ApiTags('convites')
 @Controller('convites')

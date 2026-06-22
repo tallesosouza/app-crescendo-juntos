@@ -5,7 +5,7 @@ import { SupabaseJwtGuard } from '../common/supabase-jwt.guard';
 import { AuthUser } from '../common/auth-user.decorator';
 import type { AuthUser as AuthUserType } from '../../application/ports/token-verifier.port';
 import { ObterContextoUsuario } from '../../application/use-cases/obter-contexto-usuario';
-import { OBTER_CONTEXTO_USUARIO } from './me.module';
+import { OBTER_CONTEXTO_USUARIO } from '../common/use-case.tokens';
 
 @ApiTags('me')
 @ApiBearerAuth()
