@@ -1,0 +1,468 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------- Enums ----------------
+enum GestacaoStatus {
+  gestacao
+  puerperio
+  concluida
+  interrompida
+}
+
+enum Sexo {
+  masculino
+  feminino
+  indeterminado
+}
+
+enum FaseMedicao {
+  gestacional
+  nascimento
+  pediatrica
+}
+
+enum PapelParticipacao {
+  parceiro
+  familia
+}
+
+enum StatusParticipacao {
+  pendente
+  aceito
+  recusado
+}
+
+enum AbaPermissao {
+  feed
+  gestacao
+  humor
+  calendario
+  bebe
+}
+
+enum AcaoPermissao {
+  ver
+  criar
+  curtir
+  comentar
+}
+
+enum TipoHumor {
+  feliz
+  tranquila
+  ansiosa
+  triste
+  irritada
+  cansada
+}
+
+enum TipoEvento {
+  consulta
+  exame
+  vacina
+  pediatria
+  outro
+}
+
+enum TipoAnexo {
+  laudo
+  imagem
+  documento
+}
+
+enum TipoUnidadeSaude {
+  ubs
+  hospital
+  maternidade
+  laboratorio
+  outro
+}
+
+enum CategoriaDica {
+  desenvolvimento
+  marco
+  alimentacao
+  saude
+  bem_estar
+}
+
+enum FaseConteudo {
+  gestacional
+  infantil
+}
+
+enum UnidadeIdade {
+  semana
+  mes
+}
+
+enum PrioridadeRec {
+  normal
+  importante
+  prioritaria
+}
+
+enum TipoRecomendacao {
+  vacina
+  cuidado
+  alerta
+  exame
+}
+
+enum StatusConvite {
+  pendente
+  aceito
+  recusado
+  expirado
+}
+
+// ---------------- Núcleo ----------------
+model Usuario {
+  id               Int       @id @default(autoincrement())
+  auth_uid         String    @unique @db.Uuid
+  nome             String
+  email            String    @unique
+  data_nascimento  DateTime? @db.Date
+  municipio_id     Int?
+  consentimento_em DateTime?
+  versao_termos    String?
+  criado_em        DateTime  @default(now())
+  atualizado_em    DateTime  @updatedAt
+
+  municipio        Municipio?         @relation(fields: [municipio_id], references: [id])
+  gestacoes        Gestacao[]         @relation("GestanteGestacoes")
+  participacoes    Participacao[]
+  medicoes         MedicaoBebe[]
+  postagens        Postagem[]
+  curtidas         Curtida[]
+  comentarios      Comentario[]
+  eventos_criados  EventoCalendario[]
+  anexos_enviados  AnexoEvento[]
+  convites_criados Convite[]
+
+  @@map("usuario")
+}
+
+model Gestacao {
+  id            Int            @id @default(autoincrement())
+  gestante_id   Int
+  dum           DateTime?      @db.Date
+  dpp           DateTime?      @db.Date
+  status        GestacaoStatus
+  criado_em     DateTime       @default(now())
+  atualizado_em DateTime       @updatedAt
+
+  gestante      Usuario            @relation("GestanteGestacoes", fields: [gestante_id], references: [id])
+  bebes         Bebe[]
+  participacoes Participacao[]
+  humores       RegistroHumor[]
+  postagens     Postagem[]
+  eventos       EventoCalendario[]
+  convites      Convite[]
+
+  @@index([gestante_id])
+  @@map("gestacao")
+}
+
+model Bebe {
+  id              Int       @id @default(autoincrement())
+  gestacao_id     Int
+  nome            String?
+  sexo            Sexo?
+  data_nascimento DateTime? @db.Date
+  criado_em       DateTime  @default(now())
+  atualizado_em   DateTime  @updatedAt
+
+  gestacao Gestacao           @relation(fields: [gestacao_id], references: [id], onDelete: Cascade)
+  medicoes MedicaoBebe[]
+  eventos  EventoCalendario[]
+
+  @@index([gestacao_id])
+  @@map("bebe")
+}
+
+model MedicaoBebe {
+  id             Int         @id @default(autoincrement())
+  bebe_id        Int
+  registrado_por Int
+  data           DateTime    @db.Date
+  fase           FaseMedicao
+  peso           Decimal?    @db.Decimal(6, 3)
+  comprimento    Decimal?    @db.Decimal(5, 2)
+  observacao     String?
+  criado_em      DateTime    @default(now())
+
+  bebe       Bebe    @relation(fields: [bebe_id], references: [id], onDelete: Cascade)
+  registrado Usuario @relation(fields: [registrado_por], references: [id])
+
+  @@index([bebe_id, data])
+  @@map("medicao_bebe")
+}
+
+model Participacao {
+  id            Int                @id @default(autoincrement())
+  gestacao_id   Int
+  usuario_id    Int
+  papel         PapelParticipacao
+  status_convite StatusParticipacao
+  data_entrada  DateTime?          @db.Date
+  criado_em     DateTime           @default(now())
+  atualizado_em DateTime           @updatedAt
+
+  gestacao   Gestacao    @relation(fields: [gestacao_id], references: [id], onDelete: Cascade)
+  usuario    Usuario     @relation(fields: [usuario_id], references: [id])
+  permissoes Permissao[]
+
+  @@unique([gestacao_id, usuario_id])
+  @@index([usuario_id])
+  @@map("participacao")
+}
+
+model Permissao {
+  id              Int           @id @default(autoincrement())
+  participacao_id Int
+  aba             AbaPermissao
+  acao            AcaoPermissao
+  permitido       Boolean
+
+  participacao Participacao @relation(fields: [participacao_id], references: [id], onDelete: Cascade)
+
+  @@unique([participacao_id, aba, acao])
+  @@map("permissao")
+}
+
+model RegistroHumor {
+  id          Int       @id @default(autoincrement())
+  gestacao_id Int
+  data        DateTime  @db.Date
+  humor       TipoHumor
+  nota        String?
+  criado_em   DateTime  @default(now())
+
+  gestacao Gestacao @relation(fields: [gestacao_id], references: [id], onDelete: Cascade)
+
+  @@index([gestacao_id, data])
+  @@map("registro_humor")
+}
+
+// ---------------- Feed ----------------
+model Postagem {
+  id            Int       @id @default(autoincrement())
+  gestacao_id   Int
+  autor_id      Int
+  conteudo      String
+  url_midia     String?
+  data          DateTime
+  criado_em     DateTime  @default(now())
+  atualizado_em DateTime  @updatedAt
+  deleted_at    DateTime?
+
+  gestacao    Gestacao     @relation(fields: [gestacao_id], references: [id], onDelete: Cascade)
+  autor       Usuario      @relation(fields: [autor_id], references: [id])
+  curtidas    Curtida[]
+  comentarios Comentario[]
+
+  @@map("postagem")
+}
+
+model Curtida {
+  id          Int      @id @default(autoincrement())
+  postagem_id Int
+  usuario_id  Int
+  data        DateTime @default(now())
+
+  postagem Postagem @relation(fields: [postagem_id], references: [id], onDelete: Cascade)
+  usuario  Usuario  @relation(fields: [usuario_id], references: [id])
+
+  @@unique([postagem_id, usuario_id])
+  @@map("curtida")
+}
+
+model Comentario {
+  id          Int       @id @default(autoincrement())
+  postagem_id Int
+  autor_id    Int
+  texto       String
+  data        DateTime  @default(now())
+  deleted_at  DateTime?
+
+  postagem Postagem @relation(fields: [postagem_id], references: [id], onDelete: Cascade)
+  autor    Usuario  @relation(fields: [autor_id], references: [id])
+
+  @@map("comentario")
+}
+
+// ---------------- Calendário ----------------
+model EventoCalendario {
+  id                     Int       @id @default(autoincrement())
+  gestacao_id            Int
+  bebe_id                Int?
+  criado_por             Int
+  titulo                 String
+  tipo                   TipoEvento
+  data_hora              DateTime
+  unidade_saude_id       Int?
+  endereco_livre         String?
+  recomendacao_id        Int?
+  observacao             String?
+  lembrete_minutos_antes Int?
+  criado_em              DateTime  @default(now())
+  atualizado_em          DateTime  @updatedAt
+
+  gestacao      Gestacao      @relation(fields: [gestacao_id], references: [id], onDelete: Cascade)
+  bebe          Bebe?         @relation(fields: [bebe_id], references: [id])
+  criado        Usuario       @relation(fields: [criado_por], references: [id])
+  unidade_saude UnidadeSaude? @relation(fields: [unidade_saude_id], references: [id])
+  recomendacao  Recomendacao? @relation(fields: [recomendacao_id], references: [id])
+  anexos        AnexoEvento[]
+
+  @@index([gestacao_id, data_hora])
+  @@map("evento_calendario")
+}
+
+model AnexoEvento {
+  id           Int       @id @default(autoincrement())
+  evento_id    Int
+  enviado_por  Int
+  tipo         TipoAnexo
+  s3_key       String
+  content_type String?
+  tamanho_bytes Int?
+  descricao    String?
+  criado_em    DateTime  @default(now())
+  deleted_at   DateTime?
+
+  evento  EventoCalendario @relation(fields: [evento_id], references: [id], onDelete: Cascade)
+  enviado Usuario          @relation(fields: [enviado_por], references: [id])
+
+  @@map("anexo_evento")
+}
+
+// ---------------- Convite ----------------
+model Convite {
+  id          Int               @id @default(autoincrement())
+  gestacao_id Int
+  email       String
+  papel       PapelParticipacao
+  token       String            @unique @db.Uuid
+  status      StatusConvite     @default(pendente)
+  expira_em   DateTime
+  criado_por  Int
+  criado_em   DateTime          @default(now())
+  aceito_em   DateTime?
+
+  gestacao Gestacao @relation(fields: [gestacao_id], references: [id], onDelete: Cascade)
+  criado   Usuario  @relation(fields: [criado_por], references: [id])
+
+  @@index([gestacao_id])
+  @@map("convite")
+}
+
+// ---------------- Localização ----------------
+model Municipio {
+  id              Int     @id @default(autoincrement())
+  nome            String
+  uf              String  @db.Char(2)
+  codigo_ibge     String? @unique
+  regiao_fruta_id Int?
+
+  regiao_fruta RegiaoFruta?   @relation(fields: [regiao_fruta_id], references: [id])
+  unidades     UnidadeSaude[]
+  usuarios     Usuario[]
+
+  @@map("municipio")
+}
+
+model UnidadeSaude {
+  id              Int              @id @default(autoincrement())
+  municipio_id    Int
+  nome            String
+  tipo            TipoUnidadeSaude
+  logradouro      String
+  numero          String
+  complemento     String?
+  bairro          String
+  cep             String
+  latitude        Decimal          @db.Decimal(9, 6)
+  longitude       Decimal          @db.Decimal(9, 6)
+  google_place_id String?
+  telefone        String
+  ativo           Boolean          @default(true)
+
+  municipio Municipio          @relation(fields: [municipio_id], references: [id])
+  eventos   EventoCalendario[]
+
+  @@index([municipio_id])
+  @@index([municipio_id, tipo])
+  @@map("unidade_saude")
+}
+
+// ---------------- Catálogos ----------------
+model Dica {
+  id           Int          @id @default(autoincrement())
+  categoria    CategoriaDica
+  fase         FaseConteudo
+  unidade      UnidadeIdade
+  idade_inicio Int
+  idade_fim    Int
+  titulo       String
+  conteudo     String
+
+  @@map("dica")
+}
+
+model RegiaoFruta {
+  id    Int     @id @default(autoincrement())
+  nome  String
+  ativo Boolean @default(true)
+
+  comparacoes ComparacaoTamanho[]
+  municipios  Municipio[]
+
+  @@map("regiao_fruta")
+}
+
+model TamanhoSemana {
+  semana         Int      @id
+  comprimento_cm Decimal? @db.Decimal(5, 2)
+  peso_g         Decimal? @db.Decimal(7, 2)
+
+  comparacoes ComparacaoTamanho[]
+
+  @@map("tamanho_semana")
+}
+
+model ComparacaoTamanho {
+  semana          Int
+  regiao_fruta_id Int
+  fruta           String
+  imagem_url      String
+
+  tamanho TamanhoSemana @relation(fields: [semana], references: [semana])
+  regiao  RegiaoFruta   @relation(fields: [regiao_fruta_id], references: [id])
+
+  @@id([semana, regiao_fruta_id])
+  @@map("comparacao_tamanho")
+}
+
+model Recomendacao {
+  id           Int              @id @default(autoincrement())
+  tipo         TipoRecomendacao
+  fase         FaseConteudo
+  unidade      UnidadeIdade
+  idade_inicio Int
+  idade_fim    Int
+  prioridade   PrioridadeRec    @default(normal)
+  titulo       String
+  descricao    String
+
+  eventos EventoCalendario[]
+
+  @@map("recomendacao")
+}
