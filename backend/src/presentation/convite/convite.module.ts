@@ -1,15 +1,19 @@
 import { Module } from '@nestjs/common';
 import { PersistenceModule } from '../../infrastructure/persistence/persistence.module';
 import { SecurityModule } from '../../infrastructure/auth/security.module';
+import { TRANSACTION } from '../../application/ports/transaction.port';
 import { USUARIO_REPOSITORY } from '../../domain/repositories/usuario.repository';
 import { GESTACAO_REPOSITORY } from '../../domain/repositories/gestacao.repository';
 import { CONVITE_REPOSITORY } from '../../domain/repositories/convite.repository';
+import { PARTICIPACAO_REPOSITORY } from '../../domain/repositories/participacao.repository';
 import { GerarConvite } from '../../application/use-cases/gerar-convite';
 import { ConsultarConvite } from '../../application/use-cases/consultar-convite';
+import { AceitarConvite } from '../../application/use-cases/aceitar-convite';
 import { ConviteController } from './convite.controller';
 
 export const GERAR_CONVITE = Symbol('GerarConvite');
 export const CONSULTAR_CONVITE = Symbol('ConsultarConvite');
+export const ACEITAR_CONVITE = Symbol('AceitarConvite');
 
 @Module({
   imports: [PersistenceModule, SecurityModule],
@@ -24,6 +28,11 @@ export const CONSULTAR_CONVITE = Symbol('ConsultarConvite');
       provide: CONSULTAR_CONVITE,
       useFactory: (convites) => new ConsultarConvite(convites),
       inject: [CONVITE_REPOSITORY],
+    },
+    {
+      provide: ACEITAR_CONVITE,
+      useFactory: (txn, usuarios, convites, participacoes) => new AceitarConvite(txn, usuarios, convites, participacoes),
+      inject: [TRANSACTION, USUARIO_REPOSITORY, CONVITE_REPOSITORY, PARTICIPACAO_REPOSITORY],
     },
   ],
 })
