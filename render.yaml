@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: crescendo-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: pnpm install && pnpm prisma:generate && pnpm build
+    startCommand: pnpm prisma:deploy && pnpm start:prod
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_JWKS_URL
+        sync: false
+      - key: PORT
+        value: 3000

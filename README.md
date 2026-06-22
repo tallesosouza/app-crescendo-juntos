@@ -57,3 +57,28 @@ O Postgres é executado localmente em:
 - **Database:** crescendo
 - **User:** crescendo
 - **Password:** crescendo
+
+## Deploy
+
+### Backend (Render)
+
+O arquivo `render.yaml` na raiz do monorepo configura o deploy do backend:
+
+- **Root Directory:** `backend/`
+- **Build:** `pnpm install && pnpm prisma:generate && pnpm build`
+- **Start:** `pnpm prisma:deploy && pnpm start:prod`
+- **Variáveis de Ambiente:**
+  - `DATABASE_URL`: conexão RDS Postgres (sem sync automático)
+  - `SUPABASE_JWKS_URL`: URL da JWKS do Supabase (sem sync automático)
+  - `PORT`: 3000 (padrão)
+
+### Frontend (Vercel)
+
+O arquivo `frontend/vercel.json` configura o deploy do frontend:
+
+- **Root Directory:** `frontend/`
+- **Build Command:** `pnpm build`
+- **Output Directory:** `dist/frontend/browser`
+- **Rewrites:** SPA routing configurado para redirecionar todas as rotas para `index.html`
+
+Ao conectar o repositório no Vercel, configure o Root Directory como `frontend` para que o deploy use a configuração do `vercel.json` automaticamente.
