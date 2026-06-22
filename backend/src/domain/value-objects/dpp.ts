@@ -1,7 +1,6 @@
 import { BadRequestError } from '../errors/app-error';
 
 const MS_POR_DIA = 86_400_000;
-const DIAS_GESTACAO = 280; // 40 semanas
 
 export class Dpp {
   private constructor(readonly value: Date) {}
