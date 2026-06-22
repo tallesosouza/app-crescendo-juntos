@@ -229,3 +229,30 @@ crescendo-juntos/
 | 12 | Bebê opcional no onboarding |
 | 13 | S3 (anexos/mídia) na v1; mapa, contrações, lembretes múltiplos, PostGIS na v2 |
 | 14 | Verificação obrigatória: TDD + rodar o fluxo real antes de declarar pronto |
+| 15 | **Sem dados mockados:** toda tela lê direto da tabela; catálogos populados por **seed real**; sem dados → **estado vazio** |
+| 16 | `UNIDADE_SAUDE` é catálogo **independente** (semeado, visível a todos); vínculo com evento é opcional nos dois sentidos |
+| 17 | Lembrete é campo de `EVENTO_CALENDARIO` → construído na F5 (Calendário) |
+| 18 | Unidade de saúde na F4 = **listagem/diretório** (abrir no Google Maps via link); mapa interativo (Google Places) → v2 |
+
+## 8. Roadmap de fases
+
+O banco inteiro nasce na **F0**; as fases seguintes apenas passam a *usar* tabelas que já existem.
+Nenhuma tela usa mock — cada uma lê da tabela real (vazia se não houver seed). Ordem podendo
+ser reavaliada se surgir dependência.
+
+| Fase | Entrega | Escopo principal |
+|---|---|---|
+| **F0** | Estruturação do projeto | Monorepo (pnpm), NestJS Clean Arch + `SupabaseJwtGuard`, Angular 22 PWA + AuthService/interceptor/guards, **Prisma migrate do schema INTEIRO**, seed mínimo (MUNICIPIO/Ilhéus), deploys Render + Vercel |
+| **F1** | Login + Cadastro + Onboarding | Auth Supabase, wizard signal-forms, aceite LGPD, `CONVITE`/aceitar convite, `GET /me` |
+| **F2** | Início (home) | Semana atual e derivações da DPP, "Dica do dia", "tamanho do bebê" — lê catálogos reais |
+| **F3** | Meu Bebê | CRUD `BEBE`, `MEDICAO_BEBE`, gráfico de crescimento, fruta da semana + marcos (catálogos reais) |
+| **F4** | Família + Unidade de saúde | `POSTAGEM`/`CURTIDA`/`COMENTARIO`, `PermissaoGuard`, membros/convite via UI, mídia S3; **diretório de unidades de saúde** (seed + listagem + link p/ Google Maps) |
+| **F5** | Calendário | `EVENTO_CALENDARIO` (consulta/exame/vacina), **lembrete**, "marcar recomendação como feita", `ANEXO_EVENTO` (S3 presigned) |
+| **F6** | Humor | `REGISTRO_HUMOR` (diário/timeline) |
+| **v2** | Futuro | Azure AD, mapa interativo Google Places, contador de contrações, lembretes múltiplos (`LEMBRETE`), PostGIS |
+
+### Catálogos (seed, sem mock)
+
+Cada catálogo é populado por `INSERT` assim que sua tabela existe; a tela lê direto dele:
+`MUNICIPIO` (F0), `TAMANHO_SEMANA`/`COMPARACAO_TAMANHO`/`REGIAO_FRUTA`/`DICA`/`RECOMENDACAO` (F2–F3),
+`UNIDADE_SAUDE` (F4). Sem dados → estado vazio na UI.

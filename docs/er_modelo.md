@@ -235,8 +235,11 @@ erDiagram
 
 ## Vínculo dos catálogos com a idade (DICA · COMPARACAO_TAMANHO · RECOMENDACAO)
 
-Os três são **tabelas de referência (catálogo)** e **não têm relacionamento** com `GESTACAO` ou
-`BEBE` — nem FK, nem associação no diagrama (por isso aparecem como tabelas soltas). Não faria
+Os três são **tabelas de referência (catálogo)** e **não têm FK para** `GESTACAO` ou `BEBE` — o
+cruzamento com a gestação/bebê é feito pela aplicação, não por relacionamento. (No diagrama, só
+`DICA` aparece de fato **solta**; `COMPARACAO_TAMANHO` e `RECOMENDACAO` têm associações **internas
+ao catálogo** — para `TAMANHO_SEMANA`/`REGIAO_FRUTA` e para `EVENTO_CALENDARIO`, respectivamente —
+mas nunca para `GESTACAO`/`BEBE`.) Não faria
 sentido criar um registro por gestação: existe **uma linha por semana** (COMPARACAO_TAMANHO),
 **por faixa de semanas** (DICA) ou **por faixa de idade do feto/criança** (RECOMENDACAO),
 compartilhada por todas as gestações. A junção é feita **pela aplicação**, em runtime, contra um
