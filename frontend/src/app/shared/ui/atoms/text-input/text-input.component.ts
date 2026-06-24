@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
 
 @Component({
   selector: 'ui-text-input',
@@ -11,14 +12,16 @@ import { ChangeDetectionStrategy, Component, input, model } from '@angular/core'
       [placeholder]="placeholder()"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
+      (blur)="touch.emit()"
       class="inp"
     />
   `,
   styles: `.inp{width:100%;padding:.6rem .75rem;border:1px solid #cbd5e1;border-radius:.5rem;font-size:1rem}`,
 })
-export class TextInputComponent {
+export class TextInputComponent implements FormValueControl<string> {
   readonly id = input<string>('');
   readonly type = input<string>('text');
   readonly placeholder = input<string>('');
   readonly value = model<string>('');
+  readonly touch = output<void>();
 }
