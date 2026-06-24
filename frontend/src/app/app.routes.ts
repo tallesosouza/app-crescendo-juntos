@@ -13,6 +13,14 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
   {
+    path: 'termos',
+    loadComponent: () => import('./features/auth/termos/termos.component').then((m) => m.TermosComponent),
+  },
+  {
+    path: 'confirmar-email',
+    loadComponent: () => import('./features/auth/confirmar-email/confirmar-email.component').then((m) => m.ConfirmarEmailComponent),
+  },
+  {
     path: '',
     loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
   },
