@@ -18,7 +18,6 @@ import { ButtonComponent } from '../../atoms/button/button.component';
     @for (l of links(); track l.token) {
       <div class="link">
         <span class="papel">{{ l.papel === 'parceiro' ? 'Parceiro(a)' : 'Familiar' }}:</span>
-        <span class="url-texto">{{ urlAbs(l) }}</span>
         <input class="url" readonly [value]="urlAbs(l)" (focus)="$any($event.target).select()" />
         <button type="button" class="copiar" (click)="copiar(urlAbs(l))">Copiar</button>
       </div>
@@ -30,7 +29,7 @@ import { ButtonComponent } from '../../atoms/button/button.component';
 
     <ui-button (click)="concluir()">Concluir</ui-button>
   `,
-  styles: `.intro{color:#475569;line-height:1.5}.botoes{display:flex;gap:.75rem;margin:1rem 0}.link{display:flex;align-items:center;gap:.5rem;margin:.5rem 0}.papel{font-size:.85rem;font-weight:600;color:#334155}.url-texto{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.url{flex:1;padding:.4rem;border:1px solid #cbd5e1;border-radius:.4rem;font-size:.8rem}.copiar{padding:.4rem .6rem;border:none;border-radius:.4rem;background:#334155;color:#fff;cursor:pointer}.erro{color:#b91c1c;font-size:.85rem}`,
+  styles: `.intro{color:#475569;line-height:1.5}.botoes{display:flex;gap:.75rem;margin:1rem 0}.link{display:flex;align-items:center;gap:.5rem;margin:.5rem 0}.papel{font-size:.85rem;font-weight:600;color:#334155}.url{flex:1;padding:.4rem;border:1px solid #cbd5e1;border-radius:.4rem;font-size:.8rem}.copiar{padding:.4rem .6rem;border:none;border-radius:.4rem;background:#334155;color:#fff;cursor:pointer}.erro{color:#b91c1c;font-size:.85rem}`,
 })
 export class ConvidarStepComponent {
   private readonly api = inject(ApiService);

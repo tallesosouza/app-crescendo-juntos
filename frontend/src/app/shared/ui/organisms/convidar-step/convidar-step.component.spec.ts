@@ -25,7 +25,8 @@ describe('ConvidarStepComponent', () => {
     fx.componentInstance.gerar('parceiro');
     fx.detectChanges();
     expect(gerarConvite).toHaveBeenCalledWith({ papel: 'parceiro' });
-    expect((fx.nativeElement as HTMLElement).textContent).toContain('/convite/tok-1');
+    const input = (fx.nativeElement as HTMLElement).querySelector('.url') as HTMLInputElement;
+    expect(input.value).toContain('/convite/tok-1');
   });
 
   it('concluir emite finished', async () => {
