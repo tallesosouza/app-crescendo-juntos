@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/guards/guest.guard';
+import { authGuard } from './core/guards/auth.guard';
+import { onboardingGuard } from './core/guards/onboarding.guard';
 
 export const routes: Routes = [
   {
@@ -31,6 +33,11 @@ export const routes: Routes = [
   {
     path: 'convite/:token',
     loadComponent: () => import('./features/convite/convite.component').then((m) => m.ConviteComponent),
+  },
+  {
+    path: 'onboarding',
+    loadComponent: () => import('./features/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
+    canActivate: [authGuard, onboardingGuard],
   },
   {
     path: '',
