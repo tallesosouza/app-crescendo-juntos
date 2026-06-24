@@ -29,6 +29,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/redefinir-senha/redefinir-senha.component').then((m) => m.RedefinirSenhaComponent),
   },
   {
+    path: 'convite/:token',
+    loadComponent: () => import('./features/convite/convite.component').then((m) => m.ConviteComponent),
+  },
+  {
     path: '',
     loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
   },
