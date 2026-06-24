@@ -13,6 +13,10 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
   {
+    path: 'esqueci-senha',
+    loadComponent: () => import('./features/auth/esqueci-senha/esqueci-senha.component').then((m) => m.EsqueciSenhaComponent),
+  },
+  {
     path: 'termos',
     loadComponent: () => import('./features/auth/termos/termos.component').then((m) => m.TermosComponent),
   },
