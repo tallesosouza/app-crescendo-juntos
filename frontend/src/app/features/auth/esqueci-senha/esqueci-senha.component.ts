@@ -49,9 +49,14 @@ export class EsqueciSenhaComponent {
     e.preventDefault();
     await submit(this.f, async () => {
       this.loading.set(true);
-      await firstValueFrom(this.api.esqueciSenha({ email: this.model().email }));
-      this.loading.set(false);
-      this.enviado.set(true);
+      try {
+        await firstValueFrom(this.api.esqueciSenha({ email: this.model().email }));
+        this.enviado.set(true);
+      } catch {
+        // Falha de rede/servidor: permite tentar novamente; não revela se a conta existe.
+      } finally {
+        this.loading.set(false);
+      }
     });
   }
 }
