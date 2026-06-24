@@ -8,6 +8,11 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
   {
+    path: 'cadastro',
+    loadComponent: () => import('./features/auth/cadastro/cadastro.component').then((m) => m.CadastroComponent),
+    canActivate: [guestGuard],
+  },
+  {
     path: '',
     loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
   },
