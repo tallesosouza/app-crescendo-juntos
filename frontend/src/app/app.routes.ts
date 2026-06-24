@@ -25,6 +25,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/confirmar-email/confirmar-email.component').then((m) => m.ConfirmarEmailComponent),
   },
   {
+    path: 'redefinir-senha',
+    loadComponent: () => import('./features/auth/redefinir-senha/redefinir-senha.component').then((m) => m.RedefinirSenhaComponent),
+  },
+  {
     path: '',
     loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
   },
