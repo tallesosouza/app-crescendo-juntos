@@ -76,7 +76,7 @@ De-risca a API developer-preview: prova que `[formField]` casa com os atoms da F
   - `CheckboxComponent implements FormCheckboxControl` — mantém `checked = model<boolean>(false)`; bindável por `[formField]`.
   - `fieldError(field: () => FieldState<any>): string | null` — retorna a 1ª mensagem de erro **só quando o campo foi `touched`**, senão `null`.
 
-- [ ] **Step 1: Escrever o smoke test (que falha)**
+- [x] **Step 1: Escrever o smoke test (que falha)**
 
 Create `frontend/src/app/shared/ui/forms/signal-forms-smoke.spec.ts`:
 
@@ -128,12 +128,12 @@ describe('Signal Forms ↔ atoms (smoke)', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test signal-forms-smoke`
 Expected: FAIL — `./field-error` não existe e/ou os atoms ainda não casam com `[formField]`.
 
-- [ ] **Step 3: Criar o helper `fieldError`**
+- [x] **Step 3: Criar o helper `fieldError`**
 
 Create `frontend/src/app/shared/ui/forms/field-error.ts`:
 
@@ -149,7 +149,7 @@ export function fieldError(field: () => FieldState<any>): string | null {
 }
 ```
 
-- [ ] **Step 4: Marcar `TextInputComponent` como `FormValueControl`**
+- [x] **Step 4: Marcar `TextInputComponent` como `FormValueControl`**
 
 Modify `frontend/src/app/shared/ui/atoms/text-input/text-input.component.ts` — adicionar o import do tipo e a cláusula `implements` (sem mudar o corpo, que já tem `value = model<string>('')`):
 
@@ -164,7 +164,7 @@ e a assinatura da classe:
 export class TextInputComponent implements FormValueControl<string> {
 ```
 
-- [ ] **Step 5: Marcar `CheckboxComponent` como `FormCheckboxControl`**
+- [x] **Step 5: Marcar `CheckboxComponent` como `FormCheckboxControl`**
 
 Modify `frontend/src/app/shared/ui/atoms/checkbox/checkbox.component.ts`:
 
@@ -179,12 +179,12 @@ e:
 export class CheckboxComponent implements FormCheckboxControl {
 ```
 
-- [ ] **Step 6: Rodar e confirmar que passa**
+- [x] **Step 6: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test signal-forms-smoke`
 Expected: PASS (2 testes). Confirma binding `[formField]` ↔ atoms e o helper `fieldError`.
 
-- [ ] **Step 7: Garantir a suíte existente intacta + commit**
+- [x] **Step 7: Garantir a suíte existente intacta + commit**
 
 Run: `pnpm --filter frontend test`
 Expected: toda a suíte PASS (smoke novo incluído).
@@ -206,7 +206,7 @@ git commit -m "feat(frontend): atoms compatíveis com Signal Forms (FormValueCon
 - Consumes: `PendingInviteService` (`get`/`clear`), `ApiService.aceitarConvite(token)`.
 - Produces: `PendingInviteFlowService` (`providedIn: 'root'`) com `consumir(): Observable<boolean>` — se não há token pendente, emite `false`; se há, chama `aceitarConvite`, **limpa o localStorage** (sucesso **ou** erro) e emite `true`/`false`.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/core/convite/pending-invite-flow.service.spec.ts`:
 
@@ -269,12 +269,12 @@ describe('PendingInviteFlowService', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test pending-invite-flow`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/core/convite/pending-invite-flow.service.ts`:
 
@@ -305,12 +305,12 @@ export class PendingInviteFlowService {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test pending-invite-flow`
 Expected: PASS (3 testes).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add frontend/src/app/core/convite
@@ -329,7 +329,7 @@ git commit -m "feat(frontend): PendingInviteFlowService consome o convite penden
 - Consumes: `FieldComponent`, `TextInputComponent`, `ButtonComponent` (atoms/molecules da F1b-1), `FormField`, `fieldError`.
 - Produces: `LoginFormComponent` (`ui-login-form`): inputs `loading: boolean`, `errorMsg: string | null`; output `submitted: EventEmitter<{ email: string; senha: string }>`. Valida email (obrigatório + formato) e senha (obrigatória); emite só quando válido.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/shared/ui/organisms/login-form/login-form.component.spec.ts`:
 
@@ -374,12 +374,12 @@ describe('LoginFormComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test login-form`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/shared/ui/organisms/login-form/login-form.component.ts`:
 
@@ -433,12 +433,12 @@ export class LoginFormComponent {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test login-form`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add frontend/src/app/shared/ui/organisms/login-form
@@ -458,7 +458,7 @@ git commit -m "feat(frontend): organism login-form com Signal Forms (TDD)"
 - Consumes: `LoginFormComponent`, `PublicLayoutComponent`, `AuthService.signIn`, `PendingInviteFlowService.consumir`, `Router`, `RouterLink`.
 - Produces: `LoginComponent` (`app-login`) com `onLogin({ email, senha })` — chama `signIn`; em erro seta `errorMsg`; em sucesso consome convite pendente e navega para `/`.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/features/auth/login/login.component.spec.ts`:
 
@@ -511,12 +511,12 @@ describe('LoginComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test login.component`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/features/auth/login/login.component.ts`:
 
@@ -570,12 +570,12 @@ export class LoginComponent {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test login.component`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Registrar a rota `/login`**
+- [x] **Step 5: Registrar a rota `/login`**
 
 Modify `frontend/src/app/app.routes.ts` — substituir o conteúdo por (mantém home; adiciona login com `guestGuard`):
 
@@ -598,7 +598,7 @@ export const routes: Routes = [
 
 > Nota: a home migra de `component:` eager para `loadComponent:` lazy (sem guard ainda — `authGuard` entra na Task 15, junto da lógica de `/me`). As demais rotas são acrescentadas nas próximas tasks.
 
-- [ ] **Step 6: Build + commit**
+- [x] **Step 6: Build + commit**
 
 Run: `pnpm --filter frontend build --configuration development`
 Expected: build OK.
@@ -619,7 +619,7 @@ git commit -m "feat(frontend): tela /login (organism + smart component) com cons
 **Interfaces:**
 - Produces: `CadastroFormComponent` (`ui-cadastro-form`): inputs `loading`, `errorMsg`; output `submitted: EventEmitter<{ nome: string; email: string; senha: string }>`. Campos: nome (obrigatório), email (obrigatório+formato), senha (obrigatória, mín. 8), confirmar (deve igualar senha), aceite LGPD (obrigatório, com link para `/termos`). Emite só quando válido.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/shared/ui/organisms/cadastro-form/cadastro-form.component.spec.ts`:
 
@@ -682,12 +682,12 @@ describe('CadastroFormComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test cadastro-form`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/shared/ui/organisms/cadastro-form/cadastro-form.component.ts`:
 
@@ -762,14 +762,14 @@ export class CadastroFormComponent {
 
 > Nota Signal Forms: `validate(path, ctx => ...)` recebe um `FieldContext` cujo `ctx.value()` é o valor do próprio campo e `ctx.valueOf(otherPath)` lê outro campo do mesmo form — usado aqui para a confirmação de senha. `required` num boolean (`aceite`) falha quando `false`.
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test cadastro-form`
 Expected: PASS (2 testes).
 
 > Se a release expor o contexto cruzado com nome diferente de `ctx.valueOf`, ajustar para a API equivalente desta versão (o teste de "senhas divergem" é o detector). Alternativa garantida: ler `this.model().senha` dentro do `validate` em vez de `ctx.valueOf(p.senha)`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add frontend/src/app/shared/ui/organisms/cadastro-form
@@ -789,7 +789,7 @@ git commit -m "feat(frontend): organism cadastro-form (validação cruzada de se
 - Consumes: `CadastroFormComponent`, `PublicLayoutComponent`, `AuthService.signUp`, `Router`.
 - Produces: `CadastroComponent` (`app-cadastro`) com `onCadastro({ nome, email, senha })` — chama `signUp`; sucesso → `/confirmar-email`; erro → `errorMsg`.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/features/auth/cadastro/cadastro.component.spec.ts`:
 
@@ -834,12 +834,12 @@ describe('CadastroComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test cadastro.component`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/features/auth/cadastro/cadastro.component.ts`:
 
@@ -885,12 +885,12 @@ export class CadastroComponent {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test cadastro.component`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Registrar a rota `/cadastro` (com `guestGuard`)**
+- [x] **Step 5: Registrar a rota `/cadastro` (com `guestGuard`)**
 
 Modify `frontend/src/app/app.routes.ts` — adicionar, após a rota `/login`:
 
@@ -902,7 +902,7 @@ Modify `frontend/src/app/app.routes.ts` — adicionar, após a rota `/login`:
   },
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/app/features/auth/cadastro frontend/src/app/app.routes.ts
@@ -922,7 +922,7 @@ git commit -m "feat(frontend): tela /cadastro → signUp → /confirmar-email (T
 **Interfaces:**
 - Produces: `TermosComponent` (`app-termos`) — texto fixo versão `v1` + link voltar; `ConfirmarEmailComponent` (`app-confirmar-email`) — mensagem "verifique seu e-mail" + link `/login`.
 
-- [ ] **Step 1: Escrever o teste do `ConfirmarEmailComponent` (que falha)**
+- [x] **Step 1: Escrever o teste do `ConfirmarEmailComponent` (que falha)**
 
 Create `frontend/src/app/features/auth/confirmar-email/confirmar-email.component.spec.ts`:
 
@@ -946,12 +946,12 @@ describe('ConfirmarEmailComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test confirmar-email`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar as duas telas**
+- [x] **Step 3: Implementar as duas telas**
 
 Create `frontend/src/app/features/auth/confirmar-email/confirmar-email.component.ts`:
 
@@ -1007,12 +1007,12 @@ import { PublicLayoutComponent } from '../../../shared/ui/templates/public-layou
 export class TermosComponent {}
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test confirmar-email`
 Expected: PASS (1 teste).
 
-- [ ] **Step 5: Registrar as rotas `/termos` e `/confirmar-email` (públicas)**
+- [x] **Step 5: Registrar as rotas `/termos` e `/confirmar-email` (públicas)**
 
 Modify `frontend/src/app/app.routes.ts` — adicionar (sem guard):
 
@@ -1027,7 +1027,7 @@ Modify `frontend/src/app/app.routes.ts` — adicionar (sem guard):
   },
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/app/features/auth/termos frontend/src/app/features/auth/confirmar-email frontend/src/app/app.routes.ts
@@ -1047,7 +1047,7 @@ git commit -m "feat(frontend): telas estáticas /termos (v1) e /confirmar-email 
 - Consumes: `ApiService.esqueciSenha`, `FieldComponent`, `TextInputComponent`, `ButtonComponent`, `PublicLayoutComponent`, `FormField`, `fieldError`.
 - Produces: `EsqueciSenhaComponent` (`app-esqueci-senha`) — form de e-mail; `onSubmit()` chama `esqueciSenha` e mostra estado de sucesso (sem revelar se o e-mail existe). Sucesso por signal `enviado`.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/features/auth/esqueci-senha/esqueci-senha.component.spec.ts`:
 
@@ -1095,12 +1095,12 @@ describe('EsqueciSenhaComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test esqueci-senha`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/features/auth/esqueci-senha/esqueci-senha.component.ts`:
 
@@ -1164,12 +1164,12 @@ export class EsqueciSenhaComponent {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test esqueci-senha`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Registrar a rota `/esqueci-senha` (pública) + commit**
+- [x] **Step 5: Registrar a rota `/esqueci-senha` (pública) + commit**
 
 Modify `frontend/src/app/app.routes.ts` — adicionar:
 
@@ -1198,7 +1198,7 @@ git commit -m "feat(frontend): tela /esqueci-senha → POST /auth/esqueci-senha 
 - Consumes: `AuthService.updatePassword`, `Router`, atoms/molecules, `FormField`, `fieldError`.
 - Produces: `RedefinirSenhaComponent` (`app-redefinir-senha`) — form senha + confirmar (mín. 8, devem coincidir); `onSubmit()` chama `updatePassword`; sucesso → `/login`; erro → `errorMsg`.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/features/auth/redefinir-senha/redefinir-senha.component.spec.ts`:
 
@@ -1255,12 +1255,12 @@ describe('RedefinirSenhaComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test redefinir-senha`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/features/auth/redefinir-senha/redefinir-senha.component.ts`:
 
@@ -1331,12 +1331,12 @@ export class RedefinirSenhaComponent {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test redefinir-senha`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Registrar a rota `/redefinir-senha` (pública) + commit**
+- [x] **Step 5: Registrar a rota `/redefinir-senha` (pública) + commit**
 
 Modify `frontend/src/app/app.routes.ts` — adicionar:
 
@@ -1365,7 +1365,7 @@ git commit -m "feat(frontend): tela /redefinir-senha → updatePassword → /log
 - Consumes: `ActivatedRoute` (`:token`), `PendingInviteService.set`, `ApiService.consultarConvite`, `AuthService.isAuthenticated`, `PendingInviteFlowService.consumir`, `Router`, `PublicLayoutComponent`, `ButtonComponent`, `RouterLink`.
 - Produces: `ConviteComponent` (`app-convite`) — no `ngOnInit`: **grava o token em localStorage** e consulta o convite. Se já autenticado, consome o convite e navega `/`. Senão, exibe papel + nome da gestante + botões Entrar/Criar conta. Estado por signals: `convite`, `erro`, `papelLabel`.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/features/convite/convite.component.spec.ts`:
 
@@ -1423,12 +1423,12 @@ describe('ConviteComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test convite.component`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/features/convite/convite.component.ts`:
 
@@ -1498,12 +1498,12 @@ export class ConviteComponent implements OnInit {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test convite.component`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Registrar a rota `/convite/:token` (pública) + commit**
+- [x] **Step 5: Registrar a rota `/convite/:token` (pública) + commit**
 
 Modify `frontend/src/app/app.routes.ts` — adicionar:
 
@@ -1531,7 +1531,7 @@ git commit -m "feat(frontend): tela /convite/:token (grava token, aceita se loga
 - Consumes: `MunicipioResponse[]` (input), atoms/molecules, `FormField`, `fieldError`.
 - Produces: `PerfilStepComponent` (`ui-perfil-step`): input `municipios: MunicipioResponse[]`; output `completed: EventEmitter<{ nome: string; data_nascimento: string; municipio_id: number }>`. Campos: nome (obrigatório), data_nascimento (`<input type="date">`, obrigatório), município (`<select>`, obrigatório). Emite só quando válido; converte `municipio_id` para número.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/shared/ui/organisms/perfil-step/perfil-step.component.spec.ts`:
 
@@ -1585,12 +1585,12 @@ describe('PerfilStepComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test perfil-step`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/shared/ui/organisms/perfil-step/perfil-step.component.ts`:
 
@@ -1653,12 +1653,12 @@ export class PerfilStepComponent {
 
 > Nota: `municipio_id` é mantido como **string** no form (o `<select>` emite strings) e convertido com `Number(...)` na emissão — evita atrito de parsing do Signal Forms com `<select>`.
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test perfil-step`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add frontend/src/app/shared/ui/organisms/perfil-step
@@ -1676,7 +1676,7 @@ git commit -m "feat(frontend): organism perfil-step (passo 1 do onboarding) — 
 **Interfaces:**
 - Produces: `GestacaoStepComponent` (`ui-gestacao-step`): output `completed: EventEmitter<{ gestacao: { dpp?: string; semanas?: number }; bebe?: { nome?: string; sexo?: SexoBebe; data_nascimento?: string } }>`. Modo "DPP" (`<input type="date">`) **ou** "semanas" (`<input type="number">`), escolhido por um toggle (signal `modo`); exatamente um vai no payload. Bebê opcional (nome/sexo/data) — incluído **só se algum campo preenchido**. Emite só quando o campo do modo ativo está preenchido.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/shared/ui/organisms/gestacao-step/gestacao-step.component.spec.ts`:
 
@@ -1724,12 +1724,12 @@ describe('GestacaoStepComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test gestacao-step`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/shared/ui/organisms/gestacao-step/gestacao-step.component.ts`:
 
@@ -1825,12 +1825,12 @@ export class GestacaoStepComponent {
 
 > Nota: este passo usa **signals locais + validação manual** (não Signal Forms), porque a regra é "exatamente um entre DPP/semanas" com modo alternável e bebê condicional — mais simples e legível à mão do que esquematizar em Signal Forms. As atoms `ui-field`/`ui-button` continuam reaproveitadas. (Decisão consistente com a opção "Signals locais" disponível; aqui ela é a ferramenta certa para o caso específico, enquanto os demais forms usam Signal Forms.)
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test gestacao-step`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add frontend/src/app/shared/ui/organisms/gestacao-step
@@ -1849,7 +1849,7 @@ git commit -m "feat(frontend): organism gestacao-step (DPP ou semanas + bebê op
 - Consumes: `ApiService.gerarConvite`, `ButtonComponent`.
 - Produces: `ConvidarStepComponent` (`ui-convidar-step`): output `finished: EventEmitter<void>` (concluir/pular). Botões "Convidar parceiro(a)" e "Convidar familiar" chamam `gerarConvite({ papel })` e exibem o link copiável (`location.origin + url_relativa`) com botão "Copiar". "Concluir" emite `finished`.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/shared/ui/organisms/convidar-step/convidar-step.component.spec.ts`:
 
@@ -1896,12 +1896,12 @@ describe('ConvidarStepComponent', () => {
 
 > Nota de import: ajuste o caminho relativo de `ApiService` no spec para `../../../../core/api/api.service` se a profundidade exigir (organisms ficam em `shared/ui/organisms/<nome>/`). O caminho correto a partir do spec é `../../../core/api/api.service` (três níveis acima de `organisms/convidar-step/` chegam a `app/`). Use o mesmo caminho do componente implementado no Step 3.
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test convidar-step`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/shared/ui/organisms/convidar-step/convidar-step.component.ts`:
 
@@ -1967,12 +1967,12 @@ export class ConvidarStepComponent {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test convidar-step`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add frontend/src/app/shared/ui/organisms/convidar-step
@@ -1992,7 +1992,7 @@ git commit -m "feat(frontend): organism convidar-step (gera link de convite + co
 - Consumes: `PerfilStepComponent`, `GestacaoStepComponent`, `ConvidarStepComponent`, `StepperItemComponent`, `PublicLayoutComponent`, `ApiService.listarMunicipios`/`onboardingGestante`, `Router`.
 - Produces: `OnboardingComponent` (`app-onboarding`) — estado do passo por signal (`passo: 1|2|3`); agrega perfil + gestação; no fim do passo 2 **envia** `POST /onboarding/gestante` (com `aceite_termos: true`, `versao_termos: 'v1'`), guarda a resposta e avança ao passo 3; o passo 3 (`finished`) navega para `/`. Carrega municípios no init.
 
-- [ ] **Step 1: Escrever o teste (que falha)**
+- [x] **Step 1: Escrever o teste (que falha)**
 
 Create `frontend/src/app/features/onboarding/onboarding.component.spec.ts`:
 
@@ -2045,12 +2045,12 @@ describe('OnboardingComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test onboarding.component`
 Expected: FAIL — módulo inexistente.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Create `frontend/src/app/features/onboarding/onboarding.component.ts`:
 
@@ -2143,12 +2143,12 @@ export class OnboardingComponent implements OnInit {
 
 > Nota: o `aceite_termos`/`versao_termos` já foram consentidos no `/cadastro` (checkbox LGPD); o onboarding os reafirma como `true`/`'v1'` no payload exigido pelo contrato. O envio acontece ao concluir o passo 2 (o passo 3 de convites é opcional e a gestação já está criada — os convites do passo 3 usam o `POST /convites` canônico, não o array do onboarding).
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test onboarding.component`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Registrar a rota `/onboarding` (com `authGuard` + `onboardingGuard`)**
+- [x] **Step 5: Registrar a rota `/onboarding` (com `authGuard` + `onboardingGuard`)**
 
 Modify `frontend/src/app/app.routes.ts` — adicionar os imports dos guards no topo e a rota:
 
@@ -2165,7 +2165,7 @@ import { onboardingGuard } from './core/guards/onboarding.guard';
   },
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add frontend/src/app/features/onboarding frontend/src/app/app.routes.ts
@@ -2185,7 +2185,7 @@ git commit -m "feat(frontend): wizard de onboarding (3 passos) → POST /onboard
 - Consumes: `ApiService.getMe`, `Router`.
 - Produces: `HomeComponent` (`app-home`) — no init chama `GET /me`; se `!tem_onboarding` → navega `/onboarding`; senão mostra o placeholder "Crescendo Juntos" com o nome do usuário.
 
-- [ ] **Step 1: Atualizar o teste da home (que passa a falhar)**
+- [x] **Step 1: Atualizar o teste da home (que passa a falhar)**
 
 Replace `frontend/src/app/features/home/home.component.spec.ts`:
 
@@ -2231,12 +2231,12 @@ describe('HomeComponent', () => {
 });
 ```
 
-- [ ] **Step 2: Rodar e confirmar falha**
+- [x] **Step 2: Rodar e confirmar falha**
 
 Run: `pnpm --filter frontend test home.component`
 Expected: FAIL — a home atual não injeta `ApiService` nem redireciona.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Replace `frontend/src/app/features/home/home.component.ts`:
 
@@ -2278,12 +2278,12 @@ export class HomeComponent implements OnInit {
 }
 ```
 
-- [ ] **Step 4: Rodar e confirmar que passa**
+- [x] **Step 4: Rodar e confirmar que passa**
 
 Run: `pnpm --filter frontend test home.component`
 Expected: PASS (2 testes).
 
-- [ ] **Step 5: Aplicar `authGuard` na rota da home**
+- [x] **Step 5: Aplicar `authGuard` na rota da home**
 
 Modify `frontend/src/app/app.routes.ts` — a rota `''` passa a ter o guard:
 
@@ -2295,20 +2295,20 @@ Modify `frontend/src/app/app.routes.ts` — a rota `''` passa a ter o guard:
   },
 ```
 
-- [ ] **Step 6: Verificação final — build de produção + suíte completa**
+- [x] **Step 6: Verificação final — build de produção + suíte completa**
 
 Run: `pnpm --filter frontend build`
 Expected: build de produção conclui sem erro (todas as rotas lazy compilam; estilos abaixo do budget).
 Run: `pnpm --filter frontend test`
 Expected: **toda** a suíte do frontend PASS.
 
-- [ ] **Step 7: Verificação de fluxo real (skills `run`/`verify`)**
+- [x] **Step 7: Verificação de fluxo real (skills `run`/`verify`)**
 
 Com o backend F1a rodando localmente (`:3000`) e um projeto Supabase de dev configurado (URL/anon key no `environment.development.ts`; Redirect URLs apontando a `/confirmar-email` e `/redefinir-senha`), exercitar: `/cadastro` → e-mail de confirmação → `/login` → `/onboarding` (perfil → gestação → convite) → `/` (home); depois abrir `/convite/:token` em outra sessão/navegador e aceitar. Conferir linhas em `usuario`/`gestacao`/`bebe`/`convite`/`participacao` no Postgres local.
 
 > Esta verificação depende do provisionamento operacional do Supabase (spec seção 7) e do backend ativo; o código do frontend está completo e testado independentemente.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add frontend/src/app/features/home frontend/src/app/app.routes.ts
